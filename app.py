@@ -57,30 +57,82 @@ if uploaded_file:
         st.subheader("Your Preferences")
         st.write("Budget: Rs.", budget)
         st.write("Occasion:", occasion)
-        st.subheader("Personalized Suggestions")
-        outfit_type = best_result["label"]
-        if outfit_type in ["saree", "traditional outfit", "kurti"]:
-            fabrics = ["Cotton", "Silk", "Georgette"]
-        else:
-            fabrics = ["Cotton", "Linen", "Rayon"]
-        if occasion == "Wedding":
-            colours = ["Maroon", "Emerald Green", "Navy Blue"]
-        elif occasion == "Party":
-            colours = ["Black", "Wine", "Royal Blue"]
-        elif occasion == "College":
-            colours = ["Pastel Blue", "Lavender", "Beige"]
-        else:
-            colours = ["White", "Beige", "Pastel Green"]
-        st.write("Outfit type:", outfit_type)
-        st.write("Suggested fabrics:")
-        for fabric in fabrics:
-            st.write("-", fabric)
-        st.write("Suggested colours:")
-        for colour in colours:
-             st.write("-", colour)
-        st.write("Budget considered: Rs.", budget)
-        st.subheader("Find a Creator")
-        st.write(
-            "The next part of the project will connect you with suitable "
-            "tailors and designers based on their skills, ratings and location."
+st.subheader("Personalized Suggestions")
+outfit_type = best_result["label"]
+if outfit_type in ["saree", "traditional outfit", "kurti"]:
+    fabrics = ["Cotton", "Silk", "Georgette"]
+else:
+    fabrics = ["Cotton", "Linen", "Rayon"]
+if occasion == "Wedding":
+    colours = ["Maroon", "Emerald Green", "Navy Blue"]
+elif occasion == "Party":
+    colours = ["Black", "Wine", "Royal Blue"]
+elif occasion == "College":
+    colours = ["Pastel Blue", "Lavender", "Beige"]
+else:
+    colours = ["White", "Beige", "Pastel Green"]
+st.write("Outfit type:", outfit_type)
+st.write("Suggested fabrics:")
+for fabric in fabrics:
+    st.write("-", fabric)
+st.write("Suggested colours:")
+for colour in colours:
+    st.write("-", colour)
+st.write("Budget considered: Rs.", budget)
+st.subheader("Find a Tailor or Designer")
+st.write(
+    "Find skilled people who can help turn your outfit idea into reality."
+)
+creator_type = st.radio(
+    "Who are you looking for?",
+    ["Tailor", "Designer"]
+)
+if creator_type == "Tailor":
+    st.write("Available Tailors")
+    tailors = [
+        {
+            "name": "Amina Tailoring",
+            "speciality": "Custom dresses and traditional wear",
+            "rating": 4.8
+        },
+        {
+            "name": "Fathima Stitch Studio",
+            "speciality": "Ladies wear and alterations",
+            "rating": 4.6
+        },
+        {
+            "name": "Nila Home Tailors",
+            "speciality": "Custom stitching from home",
+            "rating": 4.7
+        }
+    ]
+    for tailor in tailors:
+        st.write("###", tailor["name"])
+        st.write("Speciality:", tailor["speciality"])
+        st.write("Rating:", tailor["rating"], "/ 5")
+        st.button(
+            "Choose " + tailor["name"],
+            key=tailor["name"]
+        )
+else:
+    st.write("Available Designers")
+    designers = [
+        {
+            "name": "Ziya Designs",
+            "speciality": "Custom outfit design",
+            "rating": 4.9
+        },
+        {
+            "name": "Noor Studio",
+            "speciality": "Modern and traditional designs",
+            "rating": 4.7
+        }
+    ]
+    for designer in designers:
+        st.write("###", designer["name"])
+        st.write("Speciality:", designer["speciality"])
+        st.write("Rating:", designer["rating"], "/ 5")
+        st.button(
+            "Choose " + designer["name"],
+            key=designer["name"]
         )
