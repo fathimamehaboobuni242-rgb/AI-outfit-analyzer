@@ -1,33 +1,38 @@
 import streamlit as st
 from PIL import Image
-st.set_page_config(
-    page_title="AI Outfit Analyzer",
-    page_icon="AI-OUTFIT ANALYZER"
-)
-st.title("AI Outfit Analyzer ")
-st.write("Upload an outfit image and explore personalized fashion suggestions.")
-st.subheader("Upload your outfit")
+st.set_page_config(page_title="AI Outfit Analyzer")
+st.title("AI Outfit Analyzer")
+st.write("Upload an outfit image and get suggestions for creating your outfit.")
+st.header("Upload your outfit idea")
 uploaded_file = st.file_uploader(
     "Choose an outfit image",
     type=["jpg", "jpeg", "png"]
 )
-if uploaded_file is not None:
+if uploaded_file:
     image = Image.open(uploaded_file)
     st.image(image, caption="Uploaded outfit", use_container_width=True)
-    st.success("Image uploaded successfully!")
-    st.subheader("Your preferences")
+    st.success("Image uploaded successfully.")
+    st.header("Your preferences")
     budget = st.number_input(
-        "Your budget (Rs)",
+        "Your budget (Rs.)",
         min_value=500,
-        max_value=100000,
         value=3000,
         step=500
     )
     occasion = st.selectbox(
-        "Occasion",
+        "What is the occasion?",
         ["Casual", "College", "Party", "Wedding", "Formal"]
     )
+    measurements = st.text_input(
+        "Enter your measurements",
+        placeholder="Example: Bust 34, Waist 28, Hip 36"
+    )
     if st.button("Analyze Outfit"):
-        st.info("AI outfit analysis will be added in the next version.")
-        st.write("**Budget:** Rs", budget)
-        st.write("**Occasion:**", occasion)
+        st.header("Suggestions")
+        st.write("Occasion:", occasion)
+        st.write("Budget: Rs.", budget)
+        if measurements:
+            st.write("Measurements:", measurements)
+        st.write("Fabric suggestions will be added using AI.")
+        st.write("Colour and style suggestions will be added using AI.")
+        st.write("Suitable tailors and designers will be suggested in the next version.")
