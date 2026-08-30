@@ -2,9 +2,9 @@ import streamlit as st
 from PIL import Image
 st.set_page_config(
     page_title="AI Outfit Analyzer",
-    page_icon="👗"
+    page_icon="AI-OUTFIT ANALYZER"
 )
-st.title("AI Outfit Analyzer 👗")
+st.title("AI Outfit Analyzer ")
 st.write("Upload an outfit image and explore personalized fashion suggestions.")
 st.subheader("Upload your outfit")
 uploaded_file = st.file_uploader(
