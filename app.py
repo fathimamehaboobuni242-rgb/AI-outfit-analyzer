@@ -1,18 +1,20 @@
 import streamlit as st
 from PIL import Image
+from transformers import pipeline
 st.set_page_config(page_title="AI Outfit Analyzer")
 st.title("AI Outfit Analyzer")
-st.write("Upload an outfit image and get suggestions for creating your outfit.")
-st.header("Upload your outfit idea")
+st.write("Upload an outfit image and get basic fashion suggestions.")
 uploaded_file = st.file_uploader(
-    "Choose an outfit image",
+    "Upload an outfit image",
     type=["jpg", "jpeg", "png"]
 )
 if uploaded_file:
     image = Image.open(uploaded_file)
-    st.image(image, caption="Uploaded outfit", use_container_width=True)
-    st.success("Image uploaded successfully.")
-    st.header("Your preferences")
+    st.image(
+        image,
+        caption="Uploaded outfit",
+        use_container_width=True
+    )
     budget = st.number_input(
         "Your budget (Rs.)",
         min_value=500,
@@ -23,16 +25,40 @@ if uploaded_file:
         "What is the occasion?",
         ["Casual", "College", "Party", "Wedding", "Formal"]
     )
-    measurements = st.text_input(
-        "Enter your measurements",
-        placeholder="Example: Bust 34, Waist 28, Hip 36"
-    )
     if st.button("Analyze Outfit"):
-        st.header("Suggestions")
-        st.write("Occasion:", occasion)
+        with st.spinner("Analyzing the outfit..."):
+            classifier = pipeline(
+                "zero-shot-image-classification",
+                model="openai/clip-vit-base-patch32"
+            )
+            labels = [
+                "dress",
+                "kurti",
+                "shirt",
+                "skirt",
+                "saree",
+                "traditional outfit",
+                "western outfit",
+                "casual outfit",
+                "formal outfit"
+            ]
+            results = classifier(image, candidate_labels=labels)
+        st.subheader("AI Analysis")
+        best_result = results[0]
+        st.write(
+            "The AI thinks this outfit is:",
+            best_result["label"]
+        )
+        st.write(
+            "Confidence:",
+            round(best_result["score"] * 100, 2),
+            "%"
+        )
+        st.subheader("Your Preferences")
         st.write("Budget: Rs.", budget)
-        if measurements:
-            st.write("Measurements:", measurements)
-        st.write("Fabric suggestions will be added using AI.")
-        st.write("Colour and style suggestions will be added using AI.")
-        st.write("Suitable tailors and designers will be suggested in the next version.")
+        st.write("Occasion:", occasion)
+        st.subheader("Next Step")
+        st.write(
+            "In the next version, the system will use these results "
+            "to suggest suitable fabrics, colours and designers or tailors."
+        )
