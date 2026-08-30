@@ -17,7 +17,7 @@ if uploaded_file is not None:
     st.success("Image uploaded successfully!")
     st.subheader("Your preferences")
     budget = st.number_input(
-        "Your budget (₹)",
+        "Your budget (Rs)",
         min_value=500,
         max_value=100000,
         value=3000,
@@ -29,5 +29,5 @@ if uploaded_file is not None:
     )
     if st.button("Analyze Outfit"):
         st.info("AI outfit analysis will be added in the next version.")
-        st.write("**Budget:** ₹", budget)
+        st.write("**Budget:** Rs", budget)
         st.write("**Occasion:**", occasion)
