@@ -2,7 +2,10 @@ import streamlit as st
 from PIL import Image
 st.set_page_config(page_title="AI Outfit Analyzer")
 st.title("AI Outfit Analyzer")
-st.write("Upload an outfit image and get suggestions for creating your outfit.")
+st.write(
+    "Upload an outfit idea and get suggestions for creating "
+    "a similar outfit."
+)
 st.header("Upload your outfit idea")
 uploaded_file = st.file_uploader(
     "Choose an outfit image",
@@ -54,15 +57,38 @@ if uploaded_file:
         value=36
     )
     if st.button("Analyze Outfit"):
-        st.header("Suggestions")
+        st.header("Outfit Information")
         st.write("Occasion:", occasion)
         st.write("Budget: Rs.", budget)
         st.write("Height:", height, "cm")
         st.write("Bust:", bust, "inches")
         st.write("Waist:", waist, "inches")
         st.write("Hip:", hip, "inches")
-        st.write("Fabric suggestions will be added using AI.")
-        st.write("Colour and style suggestions will be added using AI.")
-        st.write("Suitable tailors and designers will be suggested next.")
+        st.header("Suggested Fabrics")
+        if occasion == "Wedding":
+            fabrics = ["Silk", "Georgette", "Satin"]
+        elif occasion == "Party":
+            fabrics = ["Georgette", "Chiffon", "Satin"]
+        elif occasion == "Formal":
+            fabrics = ["Linen", "Cotton", "Crepe"]
+        else:
+            fabrics = ["Cotton", "Linen", "Rayon"]
+        for fabric in fabrics:
+            st.write("-", fabric)
+        st.header("Colour Suggestions")
+        if occasion == "Wedding":
+            colours = ["Maroon", "Emerald Green", "Navy Blue"]
+        elif occasion == "Party":
+            colours = ["Black", "Wine", "Royal Blue"]
+        else:
+            colours = ["Beige", "Pastel Blue", "Lavender"]
+        for colour in colours:
+            st.write("-", colour)
+        st.header("Tailor and Designer Matching")
+        st.write(
+            "The next stage will match your requirements with "
+            "suitable tailors and designers based on their skills, "
+            "ratings and location."
+        )
 else:
     st.info("Please upload an outfit image to continue.")
