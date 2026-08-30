@@ -57,8 +57,30 @@ if uploaded_file:
         st.subheader("Your Preferences")
         st.write("Budget: Rs.", budget)
         st.write("Occasion:", occasion)
-        st.subheader("Next Step")
+        st.subheader("Personalized Suggestions")
+        outfit_type = best_result["label"]
+        if outfit_type in ["saree", "traditional outfit", "kurti"]:
+            fabrics = ["Cotton", "Silk", "Georgette"]
+        else:
+            fabrics = ["Cotton", "Linen", "Rayon"]
+        if occasion == "Wedding":
+            colours = ["Maroon", "Emerald Green", "Navy Blue"]
+        elif occasion == "Party":
+            colours = ["Black", "Wine", "Royal Blue"]
+        elif occasion == "College":
+            colours = ["Pastel Blue", "Lavender", "Beige"]
+        else:
+            colours = ["White", "Beige", "Pastel Green"]
+        st.write("Outfit type:", outfit_type)
+        st.write("Suggested fabrics:")
+        for fabric in fabrics:
+            st.write("-", fabric)
+        st.write("Suggested colours:")
+        for colour in colours:
+             st.write("-", colour)
+        st.write("Budget considered: Rs.", budget)
+        st.subheader("Find a Creator")
         st.write(
-            "In the next version, the system will use these results "
-            "to suggest suitable fabrics, colours and designers or tailors."
+            "The next part of the project will connect you with suitable "
+            "tailors and designers based on their skills, ratings and location."
         )
