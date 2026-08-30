@@ -48,3 +48,7 @@ This project is currently in the prototype stage and is being developed further
 ## author
 
 Fathima Mehaboob
+
+##prototype
+live prototype
+ai-outfit-analyzer-gpmae75di9hhzlvdhcdz2p.streamlit.app
