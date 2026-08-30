@@ -80,59 +80,61 @@ for colour in colours:
     st.write("-", colour)
 st.write("Budget considered: Rs.", budget)
 st.subheader("Find a Tailor or Designer")
+st.subheader("Find a Tailor or Designer")
 st.write(
-    "Find skilled people who can help turn your outfit idea into reality."
+    "Discover skilled tailors and designers and explore their work."
 )
 creator_type = st.radio(
-    "Who are you looking for?",
+    "I am looking for:",
     ["Tailor", "Designer"]
 )
 if creator_type == "Tailor":
-    st.write("Available Tailors")
     tailors = [
         {
             "name": "Amina Tailoring",
             "speciality": "Custom dresses and traditional wear",
-            "rating": 4.8
+            "rating": 4.8,
+            "location": "Kozhikode"
         },
         {
             "name": "Fathima Stitch Studio",
             "speciality": "Ladies wear and alterations",
-            "rating": 4.6
+            "rating": 4.6,
+            "location": "Malappuram"
         },
         {
             "name": "Nila Home Tailors",
             "speciality": "Custom stitching from home",
-            "rating": 4.7
+            "rating": 4.7,
+            "location": "Kozhikode"
         }
     ]
-    for tailor in tailors:
-        st.write("###", tailor["name"])
-        st.write("Speciality:", tailor["speciality"])
-        st.write("Rating:", tailor["rating"], "/ 5")
-        st.button(
-            "Choose " + tailor["name"],
-            key=tailor["name"]
-        )
 else:
-    st.write("Available Designers")
-    designers = [
+    tailors = [
         {
             "name": "Ziya Designs",
             "speciality": "Custom outfit design",
-            "rating": 4.9
+            "rating": 4.9,
+            "location": "Kozhikode"
         },
         {
             "name": "Noor Studio",
             "speciality": "Modern and traditional designs",
-            "rating": 4.7
+            "rating": 4.7,
+            "location": "Malappuram"
         }
     ]
-    for designer in designers:
-        st.write("###", designer["name"])
-        st.write("Speciality:", designer["speciality"])
-        st.write("Rating:", designer["rating"], "/ 5")
-        st.button(
-            "Choose " + designer["name"],
-            key=designer["name"]
+for creator in tailors:
+    st.write("### " + creator["name"])
+    st.write("Speciality:", creator["speciality"])
+    st.write("Location:", creator["location"])
+    st.write("Rating:", creator["rating"], "/ 5")
+    if st.button(
+        "View Profile",
+        key=creator["name"]
+    ):
+        st.info(
+            "Creator profile selected. "
+            "Portfolio and communication features can be added here."
         )
+    st.divider()
