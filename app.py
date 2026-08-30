@@ -1,12 +1,13 @@
 import streamlit as st
 from PIL import Image
+from transformers import pipeline
 
 st.set_page_config(page_title="AI Outfit Analyzer")
 
 st.title("AI Outfit Analyzer")
 
 st.write(
-    "Upload an outfit idea and get suggestions for creating "
+    "Upload an outfit image and get suggestions for creating "
     "a similar outfit."
 )
 
@@ -75,17 +76,45 @@ if uploaded_file:
 
     if st.button("Analyze Outfit"):
 
-        st.header("Outfit Information")
+        st.header("AI Outfit Analysis")
 
-        st.write("Occasion:", occasion)
-        st.write("Budget: Rs.", budget)
+        with st.spinner("AI is analyzing your outfit..."):
 
-        st.write("Height:", height, "cm")
-        st.write("Bust:", bust, "inches")
-        st.write("Waist:", waist, "inches")
-        st.write("Hip:", hip, "inches")
+            classifier = pipeline(
+                "zero-shot-image-classification",
+                model="openai/clip-vit-base-patch32"
+            )
 
-        st.header("Suggested Fabrics")
+            labels = [
+                "dress",
+                "kurti",
+                "shirt",
+                "skirt",
+                "saree",
+                "traditional outfit",
+                "western outfit",
+                "casual outfit",
+                "formal outfit"
+            ]
+
+            results = classifier(
+                image,
+                candidate_labels=labels
+            )
+
+        best_result = results[0]
+
+        st.write("Detected outfit:", best_result["label"])
+
+        confidence = best_result["score"] * 100
+
+        st.write(
+            "AI confidence:",
+            round(confidence, 2),
+            "%"
+        )
+
+        st.subheader("Suggested Fabrics")
 
         if occasion == "Wedding":
             fabrics = ["Silk", "Georgette", "Satin"]
@@ -99,7 +128,7 @@ if uploaded_file:
         for fabric in fabrics:
             st.write("-", fabric)
 
-        st.header("Colour Suggestions")
+        st.subheader("Colour Suggestions")
 
         if occasion == "Wedding":
             colours = ["Maroon", "Emerald Green", "Navy Blue"]
@@ -111,13 +140,75 @@ if uploaded_file:
         for colour in colours:
             st.write("-", colour)
 
-        st.header("Tailor and Designer Matching")
+        st.subheader("Your Measurements")
 
-        st.write(
-            "The next stage will match your requirements with "
-            "suitable tailors and designers based on their skills, "
-            "ratings and location."
-        )
+        st.write("Height:", height, "cm")
+        st.write("Bust:", bust, "inches")
+        st.write("Waist:", waist, "inches")
+        st.write("Hip:", hip, "inches")
+
+    st.divider()
+
+    st.header("Find a Tailor or Designer")
+
+    creator_type = st.radio(
+        "I am looking for:",
+        ["Tailors", "Designers"]
+    )
+
+    if creator_type == "Tailors":
+
+        creators = [
+            {
+                "name": "Amina Tailoring",
+                "speciality": "Custom dresses and traditional wear",
+                "location": "Kozhikode",
+                "rating": 4.8
+            },
+            {
+                "name": "Nila Home Tailors",
+                "speciality": "Custom stitching and alterations",
+                "location": "Malappuram",
+                "rating": 4.7
+            }
+        ]
+
+    else:
+
+        creators = [
+            {
+                "name": "Ziya Designs",
+                "speciality": "Custom outfit design",
+                "location": "Kozhikode",
+                "rating": 4.9
+            },
+            {
+                "name": "Noor Studio",
+                "speciality": "Modern and traditional designs",
+                "location": "Malappuram",
+                "rating": 4.7
+            }
+        ]
+
+    for creator in creators:
+
+        st.subheader(creator["name"])
+
+        st.write("Speciality:", creator["speciality"])
+        st.write("Location:", creator["location"])
+        st.write("Rating:", creator["rating"], "/ 5")
+
+        if st.button(
+            "View Profile",
+            key=creator["name"]
+        ):
+            st.write("Creator profile")
+            st.write("Name:", creator["name"])
+            st.write("Speciality:", creator["speciality"])
+            st.write("Location:", creator["location"])
+            st.write("Rating:", creator["rating"], "/ 5")
+
+        st.divider()
 
 else:
 
